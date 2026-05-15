@@ -167,11 +167,11 @@ This project demonstrates:
 ✔ Competition-ready submission system
 
 📌 Author
-
+Author: lwenxuan420
 ASVspoof Audio Detection Project
 Built for AI research & competition use
 📌 Reproducibility
-python main.py
+python train.py
 python inference.py
 📄 License
 
