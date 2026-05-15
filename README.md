@@ -104,7 +104,7 @@ audio_name,score
 kaggle-audio-test-000001.wav,0.7321
 kaggle-audio-test-000002.wav,0.1284
 📂 Project Structure
-main.py            # training pipeline
+train.py            # training pipeline
 model.py           # CNN model definition
 inference.py       # inference script
 best_model.pth     # trained checkpoint

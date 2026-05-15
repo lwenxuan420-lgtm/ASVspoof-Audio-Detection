@@ -1,0 +1,7 @@
+torch>=1.10
+torchaudio>=0.10
+numpy>=1.19
+pandas>=1.1
+soundfile>=0.10
+scikit-learn>=0.24
+tqdm>=4.60
