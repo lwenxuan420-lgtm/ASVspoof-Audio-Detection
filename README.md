@@ -1,38 +1,64 @@
 🚀 📄 README.md
-# ASVspoof-Audio-Detection (CNN Baseline)
 
-
-A lightweight and effective audio spoof / deepfake detection system based on CNN and Log-Mel spectrogram features.
-
-Designed for:
-- ASVspoof-style datasets
-- Kaggle large-scale audio inference scenarios
+# 🧠 ASVspoof Audio Deepfake Detection System  
+### CNN + Log-Mel Spectrogram + LLM (Gemma-style reasoning)
 
 ---
 
-## 🚀 Key Features
+## 🚀 Project Overview
 
-- End-to-end audio spoof detection pipeline
-- CNN-based classifier (fast & stable)
-- Log-Mel spectrogram feature extraction
-- Supports large-scale datasets (100k+ samples)
-- Handles missing audio entries (real-world Kaggle scenario)
-- Produces submission-ready CSV output
+This project is a **lightweight audio spoofing (deepfake) detection system** designed for:
+
+- ASVspoof challenge-style datasets  
+- Kaggle large-scale audio classification tasks  
+- Real-world incomplete and noisy audio environments  
+
+It combines:
+> 🎯 CNN-based acoustic classification  
+> +  
+> 🧠 LLM-based reasoning explanation (Gemma-style module)
 
 ---
 
-## 🧠 Model Architecture
+## ⚙️ System Pipeline
 
 
-Waveform → Resampling → Log-Mel Spectrogram → CNN → Fully Connected → Score
+Audio Waveform
+↓
+Resampling (16kHz)
+↓
+Log-Mel Spectrogram
+↓
+CNN Classifier
+↓
+Spoof Probability Score
+↓
+LLM Explanation (Gemma-style reasoning)
+↓
+Final Prediction
 
 
-### Network Design
-- 3-layer 2D CNN
-- BatchNorm + ReLU
-- MaxPooling
-- AdaptiveAvgPool (input-size invariant)
+---
+
+## 🧠 Key Features
+
+- 🎧 End-to-end audio deepfake detection pipeline  
+- 🧠 CNN-based acoustic classifier (log-mel input)  
+- 📊 Robust preprocessing (padding / trimming / resampling)  
+- 📁 Handles missing audio files (real-world Kaggle setting)  
+- 📤 Generates submission-ready CSV file  
+- 🧠 LLM reasoning module for explainable AI output  
+
+---
+
+## 🧱 Model Architecture
+
+- Input: Log-Mel Spectrogram (64 mel bins)
+- CNN: 3-layer convolutional network
+- BatchNorm + ReLU activation
+- MaxPooling layers
 - Fully connected classifier
+- Output: Spoof probability score (0–1)
 
 ---
 
@@ -40,59 +66,45 @@ Waveform → Resampling → Log-Mel Spectrogram → CNN → Fully Connected → 
 
 Each audio file is processed as:
 
-- Resampled to 16 kHz
-- Fixed length: 64,000 samples (~4 seconds)
-- 64-bin Mel spectrogram
-- Log transform: log(x + 1e-6)
-- Per-sample normalization (mean/std)
+- Resampled to 16,000 Hz  
+- Fixed duration: 4 seconds (64,000 samples)  
+- 64-band Mel spectrogram  
+- Log transformation  
+- Per-sample normalization (mean/std)  
 
 ---
 
 ## 📁 Dataset Structure
 
+```
 
 data/
-├── kaggle-audio-train-xxxx.wav
-├── kaggle-audio-test-xxxx.wav
+├── audio\_xxx.wav
+├── audio\_yyy.wav
 
 csv/
 └── test.csv
 
+CSV Format:
 
-### CSV Format
+audio\_name
+file1.wav
+file2.wav
 
-
-audio_name
-kaggle-audio-test-000001.wav
-kaggle-audio-test-000002.wav
-
-
----
-
-## ⚠️ Notes
-
-- CSV may contain audio files not present in dataset
-- Missing files are automatically skipped
-- This is expected in large-scale Kaggle-style datasets
-
----
-
-## ⚙️ Installation
-
-```bash
-pip install torch torchaudio numpy pandas soundfile scikit-learn tqdm
+⚙️ Installation
+pip install -r requirements.txt
 🏋 Training
-python main.py
-
-Training settings:
-
-Train/Dev split: 90/10
+python train.py
+Training Setup:
 Loss: BCEWithLogitsLoss
-Optimizer: Adam (lr=1e-3)
-Metric: EER
-Best model saved as best_model.pth
+Optimizer: Adam
+Learning rate: 1e-3
+Split: 90% train / 10% validation
+Metric: EER (Equal Error Rate)
+Best model saved as: best_model.pth
 🚀 Inference
-python inference.py
+🟢 Batch mode (competition submission)
+python inference.py --csv csv/test.csv --data data/
 
 Output:
 
@@ -101,25 +113,63 @@ submission.csv
 Format:
 
 audio_name,score
-kaggle-audio-test-000001.wav,0.7321
-kaggle-audio-test-000002.wav,0.1284
+file1.wav,0.8732
+file2.wav,0.1321
+🎧 Single audio demo mode
+python inference.py --audio examples/demo.wav
+
+Output:
+
+Prediction: SPOOF / BONAFIDE
+Score: 0.91
+Explanation: synthetic speech artifacts detected
+🧠 Explainable AI Module (Gemma-style)
+
+The system includes a reasoning layer:
+
+Converts CNN score → human-readable explanation
+Provides decision interpretability
+Designed for human-facing AI applications
+
+Example:
+
+"The audio shows spectral artifacts consistent with neural speech synthesis systems."
+
 📂 Project Structure
+
 train.py            # training pipeline
-model.py           # CNN model definition
-inference.py       # inference script
-best_model.pth     # trained checkpoint
-README.md
+inference.py        # inference system (batch + single)
+model.py            # CNN architecture
+data\_utils.py       # preprocessing utilities
 requirements.txt
 .gitignore
+README.md
+best\_model.pth
+
 📊 Results
-EER: ~0.01–0.05 (dataset dependent)
+EER: ~0.01 – 0.05 (dataset dependent)
 Stable convergence within 10–15 epochs
-Strong generalization on unseen samples
+Strong generalization on unseen data
+Robust under missing-file scenarios
 🔬 Applications
-ASVspoof baseline research
-Audio deepfake detection
-Kaggle audio classification
-Lightweight edge inference systems
+ASVspoof anti-spoofing research
+Audio deepfake detection systems
+Kaggle audio classification competitions
+Edge-deployable lightweight AI systems
+Explainable audio AI (XAI)
+🏁 Summary
+
+This project demonstrates:
+
+✔ Strong acoustic modeling using CNN
+✔ Real-world robust inference pipeline
+✔ Explainable AI integration (Gemma-style reasoning)
+✔ Competition-ready submission system
+
+📌 Author
+
+ASVspoof Audio Detection Project
+Built for AI research & competition use
 📌 Reproducibility
 python main.py
 python inference.py
